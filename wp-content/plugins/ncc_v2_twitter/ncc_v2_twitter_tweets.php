@@ -30,7 +30,7 @@ class ncc_v2_twitter_tweets
         foreach ( $tweets as $tweet ) {
             $html .= '<article>';
                 $html .= '<header>';
-                    $html .= '<h1>' . $tweet->created_at . '</h1>';
+                    $html .= '<h1>' . self::ncc_v2_twitter_tweets_date_formatter($tweet->created_at) . '</h1>';
                 $html .= '</header>';
                 $html .= '<p>' . self::ncc_v2_twitter_tweets_tweet_parser($tweet) . '</p>';
                 //var_dump($tweet->entities);
@@ -55,60 +55,41 @@ class ncc_v2_twitter_tweets
         return ob_get_clean();
     }
 
+    private function ncc_v2_twitter_tweets_date_formatter($tweet_date)
+    {
+        $date = new DateTime($tweet_date);
+        $date->setTimezone(new DateTimeZone('America/Chicago'));
+        $formatted_date = $date->format('H:i, M d');
+
+        return $formatted_date;
+    }
+
     private function ncc_v2_twitter_tweets_tweet_parser($tweet)
     {
 
         $text_to_parse = $tweet->text;
 
-        if ( !empty($tweet->entities->urls) || isset($tweet->retweeted_status) )
-        {
-            $text_to_parse = self::ncc_v2_twitter_tweets_link_finder($text_to_parse, $tweet);
-        }
+        $link_parsed_text = self::ncc_v2_twitter_tweets_link_finder($text_to_parse);
 
-        if ( !empty($tweet->entities->user_mentions) )
-        {
-            $text_to_parse = self::ncc_v2_twitter_tweets_mention_finder($text_to_parse, $tweet);
-        }
+        $mention_parsed_text = self::ncc_v2_twitter_tweets_mention_finder($link_parsed_text);
 
-        return $text_to_parse;
+
+        return $mention_parsed_text;
 
     }
 
-    private function ncc_v2_twitter_tweets_link_finder($tweet_text, $tweetObj)
+    private function ncc_v2_twitter_tweets_link_finder($tweet_text)
     {
-        $text_with_html = $tweet_text;
-        $url_source = null;
+        $parsed_text = preg_replace('!(http|https)(s)?:\/\/[a-zA-Z0-9.?&_/]+!', '<a href="\\0" target="_blank">\\0</a>',$tweet_text);
 
-        if ( isset($tweetObj->retweeted_status) )
-        {
-            $url_source = $tweetObj->retweeted_status->entities->urls;
-        } else
-        {
-            $url_source = $tweetObj->entities->urls;
-        }
-
-        foreach ( $url_source as $value ) {
-            $search_in = $tweetObj->text;
-            $search_for = $value->url;
-            $replace_with = '<a href="' . $value->url . '" target="_blank">' . $value->url . '</a>';
-            $text_with_html = str_replace( $search_for, $replace_with ,$search_in );
-        }
-
-        return $text_with_html;
-
+        return $parsed_text;
     }
 
-    private function ncc_v2_twitter_tweets_mention_finder($tweet_text,$tweetObj)
+    private function ncc_v2_twitter_tweets_mention_finder($tweet_text)
     {
-        $text_with_html = $tweet_text;
-        foreach ( $tweetObj->entities->user_mentions as $value ) {
-            $search_in = $tweetObj->text;
-            $search_for = $value->screen_name;
-            $replace_with = '<a href="http://www.twitter.com/' . $value->screen_name . '" target="_blank">' . $value->screen_name . '</a>';
-            $text_with_html = str_replace( $search_for, $replace_with ,$search_in );
-        }
+        $parsed_text = preg_replace('/(^|\s)@([a-z0-9_]+)/i', '$1<a href="http://www.twitter.com/$2" target="_blank">@$2</a>', $tweet_text);
 
-        return $text_with_html;
+        return $parsed_text;
     }
 }
 
