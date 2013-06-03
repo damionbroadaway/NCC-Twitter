@@ -52,7 +52,7 @@ class ncc_v2_twitter_bootstrap
 
     public function ncc_v2_twitter_activate()
     {
-        if ( !get_option( NCC_V2_OPTION_GROUP ) )
+        if ( !get_option( NCC_V2_TWITTER_OPTION_GROUP ) )
         {
             $ncc_v2_twitter_options = array(
                 'ncc_v2_twitter_admin_options_oauth_consumer_key'           => '',
