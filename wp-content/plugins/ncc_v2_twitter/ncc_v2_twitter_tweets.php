@@ -1,11 +1,9 @@
 <?php
-/**
-* ncc_v2_twitter_tweets.php
-*
-* Description: 
-*
-* @author dbroadaw / 
-*/
+    /**
+     * Description:
+     *
+     * Class ncc_v2_twitter_tweets
+     */
 class ncc_v2_twitter_tweets
 {
     function __construct()
@@ -18,43 +16,49 @@ class ncc_v2_twitter_tweets
         include_once ( 'ncc_v2_twitter_api.php');
     }
 
+    /**
+     * Description:
+     *
+     */
     public function ncc_v2_twitter_tweets_show()
     {
 
         $tweets = null;
+        $cache_toggle = null;
 
          if ( false === ($tweets = get_transient('ncc_v2_twitter_cache') ) )
         {
             $api = new ncc_v2_twitter_api();
             $tweets = $api->get_tweets();
 
+            $cache_toggle = '#FF0000';
             $cache_in_seconds = self::ncc_v2_twitter_tweets_cache_to_seconds();
             set_transient('ncc_v2_twitter_cache', $tweets, $cache_in_seconds);
-            echo 'json';
         } else
         {
+            $cache_toggle = '#00FF00';
             $tweets = get_transient('ncc_v2_twitter_cache');
-            echo 'transient';
         }
 
         $tweets = json_decode($tweets);
-        //var_dump($tweets);
 
         $html = null;
+        $html .= '<style type="text/css">';
+            $html .= '.cacheToggle:hover{';
+                $html .= 'color:' . $cache_toggle . ';';
+            $html .= '{';
+        $html .= '</style>';
 
         foreach ( $tweets as $tweet ) {
             $html .= '<article>';
                 $html .= '<header>';
-                    $html .= '<h1>' . self::ncc_v2_twitter_tweets_date_formatter($tweet->created_at) . '</h1>';
+                    $html .= '<h1 class="cacheToggle">' . self::ncc_v2_twitter_tweets_date_formatter($tweet->created_at) . '</h1>';
                 $html .= '</header>';
                 $html .= '<p>' . self::ncc_v2_twitter_tweets_tweet_parser($tweet) . '</p>';
-                //var_dump($tweet->entities);
                 $html .= '<footer>';
                     $html .= '<p><a href="http://www.twitter.com/' . $tweet->user->screen_name . '" target="_blank">@' . $tweet->user->screen_name . '</a>&nbsp;|&nbsp;';
                     $html .= '<a href="http://www.twitter.com/' . $tweet->user->screen_name . '/status/' . $tweet->id_str . '" target="_blank">View on Twitter</a></p>';
                 $html .= '</footer>';
-                /* a little debug */
-                //$html .= self::grab_dump($tweet);
             $html .= '</article>';
         }
 
@@ -63,13 +67,12 @@ class ncc_v2_twitter_tweets
 
     }
 
-    private function grab_dump($var)
-    {
-        ob_start();
-        var_dump($var);
-        return ob_get_clean();
-    }
-
+    /**
+     * Description:
+     *
+     * @param $tweet_date
+     * @return string
+     */
     private function ncc_v2_twitter_tweets_date_formatter($tweet_date)
     {
         $date = new DateTime($tweet_date);

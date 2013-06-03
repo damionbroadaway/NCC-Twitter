@@ -15,6 +15,7 @@ class ncc_v2_twitter_admin
         add_action('admin_init', array($this, 'ncc_v2_twitter_admin_add_settings'));
         add_action('admin_init', array($this, 'ncc_v2_twitter_admin_add_styles'));
         add_action('admin_menu', array($this, 'ncc_v2_twitter_admin_add_menu'));
+        ncc_v2_twitter_admin_editor_shortcode_button::init();
     }
 
     public function ncc_v2_twitter_admin_includes()
@@ -22,6 +23,7 @@ class ncc_v2_twitter_admin
         include_once ( 'ncc_v2_twitter_admin_helper.php' );
         include_once ( 'ncc_v2_twitter_admin_settings_section_callbacks.php' );
         include_once ( 'ncc_v2_twitter_admin_settings_field_callbacks.php' );
+        include_once ( 'ncc_v2_twitter_admin_editor_shortcode_button.php');
     }
 
     public function ncc_v2_twitter_admin_add_cpt()
@@ -49,8 +51,6 @@ class ncc_v2_twitter_admin
     {
         ncc_v2_twitter_admin_helper::render_page();
     }
-
-
 }
 
 $ncc_v2_twitter_admin = new ncc_v2_twitter_admin();
