@@ -1,13 +1,16 @@
 <?php
-/**
-* ncc_v2_twitter_admin_helper.php
-*
-* Description: 
-*
-* @author dbroadaw / 
-*/
+    /**
+     * Description: Performs admin tasks like rendering pages and saving post data.
+     *
+     * Class:       ncc_v2_twitter_admin_helper
+     */
 class ncc_v2_twitter_admin_helper
 {
+    /**
+     * Description:  Renders header and page for admin.
+     * Function:     render_page
+     *
+     */
     public static function render_page()
     {
         self::render_page_header();
@@ -15,6 +18,11 @@ class ncc_v2_twitter_admin_helper
 
     }
 
+    /**
+     * Description:  Admin page header.
+     * Function:     render_page_header
+     *
+     */
     public static function render_page_header()
     {
         $header = '';
@@ -27,6 +35,11 @@ class ncc_v2_twitter_admin_helper
 
     }
 
+    /**
+     * Description:  Content of admin settings page.
+     * Function:     render_page_body
+     *
+     */
     public static function render_page_body()
     {
         if(isset($_POST['submit']))
@@ -46,6 +59,12 @@ class ncc_v2_twitter_admin_helper
         echo '</form>';
     }
 
+    /**
+     * Description:  Saves post data of admin settings page.
+     * Function:     save_post_data
+     *
+     * @param $post
+     */
     public static function save_post_data( $post )
     {
         $errors = array();

@@ -1,11 +1,9 @@
 <?php
-/**
-* ncc_v2_admin_settings_section_callbacks.php
-*
-* Description: 
-*
-* @author dbroadaw / 
-*/
+    /**
+     * Description: Settings section callbacks.
+     *
+     * Class:       ncc_v2_twitter_admin_settings_section_callbacks
+     */
 class ncc_v2_twitter_admin_settings_section_callbacks
 {
     public static function oAuth()

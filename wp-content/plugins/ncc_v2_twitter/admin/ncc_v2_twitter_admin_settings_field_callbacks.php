@@ -1,12 +1,9 @@
 <?php
-/**
-* ncc_v2_twitter_admin_settings_field_callbacks.php
-*
-* Description: 
-*
-* @author dbroadaw / 
-*/
-//TODO: move description into ncc_v2_twitter_admin_settings_data::fields() as 'desc'
+    /**
+     * Description: Callbacks for settings fields.
+     *
+     * Class:       ncc_v2_twitter_admin_settings_field_callbacks
+     */
 class ncc_v2_twitter_admin_settings_field_callbacks
 {
     public static function oAuth_consumer_key( $args )

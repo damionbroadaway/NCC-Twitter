@@ -1,17 +1,17 @@
 <?php
-
+    /**
+     * Description: Helper class that can build the basic WordPress settings.
+     *              Can be passed on array and build all settings required.
+     *              Tied directly to ncc_v2_twitter_admin_settigns_data.php
+     *
+     * Class:       ncc_v2_twitter_settings_builder
+     */
 class ncc_v2_twitter_settings_builder
 {
-    function __construct()
-    {
-
-    }
-
-    public static function ncc_v2_twitter_settings_builder_add_cpt($name, $args)
-    {
-        register_post_type($name, $args);
-    }
     /**
+     * Description:  Adds pages to admin.
+     * Function:     ncc_v2_twitter_settings_builder_add_pages
+     *
      * @param $args
      */
     public static function ncc_v2_twitter_settings_builder_add_pages($args)
@@ -31,6 +31,12 @@ class ncc_v2_twitter_settings_builder
         }
     }
 
+    /**
+     * Description:  Adds sub pages to admin.
+     * Function:     ncc_v2_twitter_settings_builder_add_sub_pages
+     *
+     * @param $args
+     */
     public static function ncc_v2_twitter_settings_builder_add_sub_pages($args)
     {
         foreach ($args as $value) {
@@ -49,6 +55,12 @@ class ncc_v2_twitter_settings_builder
 
     }
 
+    /**
+     * Description:  Adds settions sections.
+     * Function:     ncc_v2_twitter_settings_builder_add_sections
+     *
+     * @param array $args
+     */
     public static function ncc_v2_twitter_settings_builder_add_sections( $args = array() )
     {
         foreach ( $args as $value )
@@ -64,6 +76,13 @@ class ncc_v2_twitter_settings_builder
             );
         }
     }
+
+    /**
+     * Description:  Add fields to settings sectionsl.
+     * Function:     ncc_v2_twitter_settings_builder_add_fields
+     *
+     * @param $args
+     */
     public static function ncc_v2_twitter_settings_builder_add_fields( $args )
     {
         foreach ( $args as $value ) {
@@ -86,6 +105,12 @@ class ncc_v2_twitter_settings_builder
 
     }
 
+    /**
+     * Description:  Adds text field for settings.
+     * Function:     ncc_v2_twitter_settings_builder_add_text_field
+     *
+     * @param $args
+     */
     public static function ncc_v2_twitter_settings_builder_add_text_field( $args )
     {
         $html = '';
@@ -110,6 +135,12 @@ class ncc_v2_twitter_settings_builder
         echo $html;
     }
 
+    /**
+     * Description:  Updates WordPress options.
+     * Function:     ncc_v2_up_settings_builder_add_option
+     *
+     * @param $args
+     */
     public static function ncc_v2_up_settings_builder_add_option( $args )
     {
 

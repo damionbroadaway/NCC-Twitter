@@ -1,50 +1,18 @@
 <?php
-/**
-* ncc_v2_twitter_admin_settings_data.php
-*
-* Description: 
-*
-* @author dbroadaw / 
-*/
+    /**
+     * Description: All admin data in the form of arrays.
+     *              Passed to ncc_vw_twitter_admin_settings_builder
+     *
+     * Class:       ncc_v2_twitter_admin_settings_data
+     */
 class ncc_v2_twitter_admin_settings_data
 {
-
-    public static function cpt()
-    {
-        $labels = array(
-            'name'                  => 'Tweets',
-            'singular_name'         => 'Tweet',
-            'add_new'               => 'Add New ',
-            'add_new_item'          => 'Add New Tweet',
-            'edit_item'             => 'Edit Tweet',
-            'new_item'              => 'New Tweet',
-            'all_items'             => 'All Tweets',
-            'view_item'             => 'View Tweet',
-            'search_items'          => 'Search Tweets',
-            'not_found'             => 'No Tweets found',
-            'not_found_in_trash'    => 'No Tweets found in Trash',
-            'parent_item_colon'     => '',
-            'menu_name'             => 'Tweets'
-        );
-
-        $newCPT = array(
-            'labels'                => $labels,
-            'public'                => true,
-            'publicly_queryable'    => true,
-            'show_ui'               => true,
-            'show_in_menu'          => true,
-            'query_var'             => true,
-            'rewrite'               => array( 'slug' => 'tweet' ),
-            'capability_type'       => 'post',
-            'has_archive'           => true,
-            'hierarchical'          => false,
-            'menu_position'         => null,
-            'supports'              => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
-        );
-
-        return $newCPT;
-    }
-
+    /**
+     * Description:  Menu data.
+     * Function:     menu
+     *
+     * @return array
+     */
     public static function menu()
     {
         $newMenu = array(
@@ -62,6 +30,12 @@ class ncc_v2_twitter_admin_settings_data
         return $newMenu;
     }
 
+    /**
+     * Description:  Settings sections.
+     * Function:     section
+     *
+     * @return array
+     */
     public static function section()
     {
         $newSections = array(
@@ -91,6 +65,12 @@ class ncc_v2_twitter_admin_settings_data
         return $newSections;
     }
 
+    /**
+     * Description:  Settings fields for sections.
+     * Function:     fields
+     *
+     * @return array
+     */
     public static function fields()
     {
         $newFields = array(

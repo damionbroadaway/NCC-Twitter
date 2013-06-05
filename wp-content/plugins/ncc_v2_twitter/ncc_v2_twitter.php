@@ -10,19 +10,25 @@ License:        GPL2
 */
 
 /**
- * Check for proper WordPress Version
+ * Description: Checks for proper WorPress version on Plugins page.
  */
 if ( ! empty ( $GLOBALS['pagenow'] ) && 'plugins.php' === $GLOBALS['pagenow'] )
     add_action( 'admin_notices', array('ncc_v2_twitter_bootstrap', 'ncc_v2_twitter_activate_wp_version_check'));
 
 /**
- * WordPress Plugin Activation/Deactivation Hooks
+ * Description: Calls WP activation and deactivation hooks
  */
 register_activation_hook(__FILE__, array('ncc_v2_twitter_bootstrap', 'ncc_v2_twitter_activate'));
 register_deactivation_hook(__FILE__, array('ncc_v2_twitter_bootstrap', 'ncc_v2_twitter_deactivate'));
 
-class ncc_v2_twitter_bootstrap
+    /**
+     * Description: Bootsrap for Plugin. Loads data, settings, admin logic, & shortcode.
+     *
+     * Class ncc_v2_twitter_bootstrap
+     */
+    class ncc_v2_twitter_bootstrap
 {
+
     function __construct()
     {
         define('NCC_V2_TWITTER_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -35,6 +41,10 @@ class ncc_v2_twitter_bootstrap
         self::ncc_v2_twitter_shortcode();
     }
 
+    /**
+     * Description: Includes admin files if in the Dashboard
+     *
+     */
     public function ncc_v2_twitter_admin()
     {
         if ( is_admin() )
@@ -43,6 +53,10 @@ class ncc_v2_twitter_bootstrap
         }
     }
 
+    /**
+     * Description: Includes settings, data, and front-end display.
+     *
+     */
     public function ncc_v2_twitter_init()
     {
         include_once ( 'ncc_v2_twitter_tweets.php' );
@@ -50,6 +64,10 @@ class ncc_v2_twitter_bootstrap
         include_once ( 'admin/ncc_v2_twitter_admin_settings_builder.php' );
     }
 
+    /**
+     * Description: If no settings found - adds empty settings.
+     *
+     */
     public function ncc_v2_twitter_activate()
     {
         if ( !get_option( NCC_V2_TWITTER_OPTION_GROUP ) )
@@ -72,6 +90,10 @@ class ncc_v2_twitter_bootstrap
 
     }
 
+    /**
+     * Description: Version check for WordPress.
+     *
+     */
     public function ncc_v2_twitter_activate_wp_version_check()
     {
         $currentVersion = get_bloginfo('version');
@@ -96,10 +118,25 @@ class ncc_v2_twitter_bootstrap
         }
     }
 
+    /**
+     * Description: Add shortcode.
+     *
+     */
     public function ncc_v2_twitter_shortcode()
     {
         add_shortcode('tweets', array('ncc_v2_twitter_tweets','ncc_v2_twitter_tweets_show'));
     }
+
 }
 
 $ncc_v2_twitter_bootstrap = new ncc_v2_twitter_bootstrap();
+
+    /**
+     * Description: Template tag to show Tweets.
+     *
+     */
+function show_tweets()
+{
+    $ncc_v2_twitter_tweets = new ncc_v2_twitter_tweets();
+    $ncc_v2_twitter_tweets->ncc_v2_twitter_tweets_show();
+}

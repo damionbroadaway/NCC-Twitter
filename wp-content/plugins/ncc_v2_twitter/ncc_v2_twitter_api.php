@@ -1,5 +1,10 @@
 <?php
-
+    /**
+     * Description: Controls the creation and all of Twitter's API to get Tweets
+     *              See here: https://dev.twitter.com/docs/api/1.1/get/statuses/user_timeline
+     *
+     * Class:       ncc_v2_twitter_api
+     */
 class ncc_v2_twitter_api
 {
     private $consumerKey;
@@ -9,6 +14,9 @@ class ncc_v2_twitter_api
     private $twitterUser;
     public  $status;
 
+    /**
+     *  Class construct loads Twitter API values from WordPress settings.
+     */
     function __construct()
     {
         $this->get_oAuth_params();
@@ -91,14 +99,30 @@ class ncc_v2_twitter_api
         return $oauth_header;
     }
 
+    /**
+     * Description:  Using above methods an oAuth call is made to the API
+     * Function:     get_twitter_json
+     *
+     * @return mixed
+     */
     private function get_twitter_json()
     {
+        if ( get_option(NCC_V2_TWITTER_OPTION_GROUP) )
+        {
+            $twitter_user = get_option(NCC_V2_TWITTER_OPTION_GROUP);
+            $twitter_user = $twitter_user['ncc_v2_twitter_admin_options_account_twitter_user'];
+        } else
+        {
+            $twitter_user = 'internetwizzzrd';
+        }
+
+
         $curl_header = array("Authorization: Oauth {$this->oAuth_header()}", 'Expect:');
 
         $curl_request = curl_init();
         curl_setopt($curl_request, CURLOPT_HTTPHEADER, $curl_header);
         curl_setopt($curl_request, CURLOPT_HEADER, false);
-        curl_setopt($curl_request, CURLOPT_URL, 'https://api.twitter.com/1.1/statuses/user_timeline.json?count=20&screen_name=internetwizzzrd');
+        curl_setopt($curl_request, CURLOPT_URL, 'https://api.twitter.com/1.1/statuses/user_timeline.json?count=20&screen_name=' . $twitter_user);
         curl_setopt($curl_request, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl_request, CURLOPT_SSL_VERIFYPEER, false);
 
@@ -108,6 +132,12 @@ class ncc_v2_twitter_api
         return $json;
     }
 
+    /**
+     * Description:  Public facing function to return json data (Tweets).
+     * Function:     get_tweets
+     *
+     * @return mixed
+     */
     public function get_tweets()
     {
         return $this->get_twitter_json();
