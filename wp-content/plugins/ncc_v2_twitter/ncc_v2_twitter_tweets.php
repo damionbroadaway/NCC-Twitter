@@ -45,16 +45,24 @@ class ncc_v2_twitter_tweets
         }
 
         $tweets = json_decode($tweets);
-        //var_dump($tweets);
 
         if ( !isset($tweets->errors) && !empty($tweets))
         {
             $html = null;
+            /*
+             *  Please excuse this ugly bit here. It would not be included in
+             *  an production plugin. It is to show if the transients are
+             *  working. Red for json; green for transient.
+             */
             $html .= '<style type="text/css">';
             $html .= '.cacheToggle:hover{';
             $html .= 'color:' . $cache_toggle . ';';
             $html .= '{';
             $html .= '</style>';
+            /*
+             *  I wouldn't include this either, but it's a neat little thing
+             *  to play around with. Hover over any @mentions.
+             */
             $html .= '<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>';
             $html .= '<script type="text/javascript" src="' . NCC_V2_TWITTER_PLUGIN_URL . 'inc/hovercards.js"></script>';
             $html .= '<script type="text/javascript" src="' . NCC_V2_TWITTER_PLUGIN_URL . 'inc/hovercard-twitter.js"></script>';

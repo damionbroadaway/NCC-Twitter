@@ -120,7 +120,7 @@ class ncc_v2_twitter_admin_settings_data
                 'optionGroup'       => NCC_V2_TWITTER_OPTION_GROUP,
                 'section'           => 'ncc_v2_twitter_admin_options_account_section',
                 'class'             => 'twitter-user',
-                'desc'              => 'ex: internetwizzzard'
+                'desc'              => 'ex: internetwizzzrd'
             ),array(
                 'slug'              => 'ncc_v2_twitter_admin_options_cache_duration',
                 'title'             => 'Cache Duration',

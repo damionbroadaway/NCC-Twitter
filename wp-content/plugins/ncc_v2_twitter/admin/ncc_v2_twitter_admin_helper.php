@@ -32,6 +32,7 @@ class ncc_v2_twitter_admin_helper
         $header .= '</div>';
 
         echo $header;
+        include_once('ncc_v2_twitter_instructions.php');
 
     }
 
